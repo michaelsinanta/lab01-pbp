@@ -27,7 +27,11 @@
 
             <h1>Login</h1>
         
-            <form method="POST" action="">
+            <form method="POST" action="" 
+            style="
+            display: flex;
+            flex-direction: column;
+            justify-items: center;">
                 {% csrf_token %}
                 <table>
                     <tr>
@@ -39,12 +43,8 @@
                         <td>Password: </td>
                         <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
                     </tr>
-        
-                    <tr>
-                        <td></td>
-                        <td><input class="btn login_btn bg-dark text-white" type="submit" value="Login"></td>
-                    </tr>
                 </table>
+                <input class="btn login_btn bg-dark text-white" type="submit" value="Login" style="margin: 10px;">
             </form>
         
             {% if messages %}
