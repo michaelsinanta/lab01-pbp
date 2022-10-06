@@ -1,3 +1,5 @@
+from turtle import title
+from urllib import request
 from django.shortcuts import render
 from wishlist.models import BarangWishlist
 from django.http import HttpResponse
@@ -11,7 +13,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 import datetime
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
 # Create your views here.
@@ -25,6 +27,25 @@ def show_wishlist(request):
         'last_login': request.COOKIES['last_login'],
     }
     return render(request, "wishlist.html", context)
+
+@login_required(login_url='/wishlist/login/')
+def show_wishlist_ajax(request):
+    context = {
+        'nama': 'Michael Christlambert Sinanta',
+        'last_login': request.COOKIES['last_login'],
+    }
+    return render(request, "wishlist_ajax.html", context)
+
+@login_required(login_url='/wishlist/login/')
+def submit_ajax(request):
+    if request.method == 'POST':
+        nama_barang = request.POST.get('nama_barang')
+        harga_barang = request.POST.get('harga_barang')
+        deskripsi = request.POST.get('deskripsi')
+        new_wishlist = BarangWishlist(nama_barang = nama_barang, title = title, deskripsi = deskripsi)
+        new_wishlist.save()
+        return redirect('wishlist:show_wishlist_ajax')
+    return render(request, 'wishlist_ajax.html')
 
 # Lab 2
 def show_xml(request):
